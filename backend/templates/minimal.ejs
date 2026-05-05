@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Resume - <%= name %></title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 11px; color: #1e293b; line-height: 1.5; padding: 40px 50px; max-width: 210mm; }
+    .resume { display: flex; gap: 32px; }
+    .left { width: 36%; }
+    .right { flex: 1; }
+    .header { margin-bottom: 24px; display: flex; align-items: flex-start; gap: 20px; }
+    .photo { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; border: 3px solid <%= typeof themeColor !== 'undefined' ? themeColor : '#0d9488' %>; flex-shrink: 0; }
+    .name { font-size: 20px; font-weight: 700; color: <%= typeof themeColor !== 'undefined' ? themeColor : '#0f766e' %>; margin-bottom: 4px; }
+    .job-title { font-size: 12px; color: #64748b; margin-bottom: 20px; }
+    h2 { font-size: 11px; color: <%= typeof themeColor !== 'undefined' ? themeColor : '#0d9488' %>; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid <%= typeof themeColor !== 'undefined' ? themeColor : '#0d9488' %>; }
+    .contact p { margin-bottom: 6px; color: #475569; }
+    .section { margin-bottom: 22px; }
+    .skills-list { display: flex; flex-wrap: wrap; gap: 6px 10px; }
+    .skill { background: <%= typeof themeColorLight !== 'undefined' ? themeColorLight : '#ccfbf1' %>; color: <%= typeof themeColor !== 'undefined' ? themeColor : '#0f766e' %>; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 500; }
+    .profile { text-align: justify; color: #334155; margin-bottom: 22px; }
+    .job { margin-bottom: 20px; padding-left: 12px; border-left: 3px solid <%= typeof themeColorLight !== 'undefined' ? themeColorLight : '#99f6e4' %>; }
+    .job-dates { font-size: 10px; color: <%= typeof themeColor !== 'undefined' ? themeColor : '#0d9488' %>; margin-bottom: 2px; font-weight: 600; }
+    .job-company { font-weight: 700; color: <%= typeof themeColor !== 'undefined' ? themeColor : '#0f766e' %>; margin-bottom: 2px; }
+    .job-position { font-weight: 500; margin-bottom: 6px; }
+    .job-desc ul { margin-left: 18px; margin-top: 4px; }
+    .job-desc li { margin-bottom: 2px; color: #475569; }
+    .edu-item { margin-bottom: 12px; }
+    .edu-degree { font-weight: 600; color: <%= typeof themeColor !== 'undefined' ? themeColor : '#0f766e' %>; }
+    .edu-years { font-size: 10px; color: #64748b; }
+    .lang-item { margin-bottom: 4px; color: #475569; }
+  </style>
+</head>
+<body>
+  <div class="resume">
+    <div class="left">
+      <div class="header">
+        <% if (typeof photoDataUrl !== 'undefined' && photoDataUrl) { %>
+        <img src="<%= photoDataUrl %>" alt="Photo" class="photo" />
+        <% } %>
+        <div>
+          <h1 class="name"><%= name %></h1>
+          <p class="job-title"><%= jobTitle %></p>
+        </div>
+      </div>
+      <div class="section">
+        <h2>Contact</h2>
+        <div class="contact">
+          <p><%= phone %></p>
+          <p><%= email %></p>
+          <p><%= location %></p>
+        </div>
+      </div>
+      <div class="section">
+        <h2>Skills</h2>
+        <div class="skills-list">
+          <% (skills || []).filter(Boolean).forEach(function(skill) { %>
+          <span class="skill"><%= skill %></span>
+          <% }); %>
+        </div>
+      </div>
+      <div class="section">
+        <h2>Education</h2>
+        <% (education || []).forEach(function(edu) { %>
+        <div class="edu-item">
+          <div class="edu-degree"><%= edu.degree %></div>
+          <div class="edu-years"><%= edu.startYear %> - <%= edu.endYear %></div>
+        </div>
+        <% }); %>
+      </div>
+      <div class="section">
+        <h2>Languages</h2>
+        <% (languages || []).forEach(function(lang) { %>
+        <div class="lang-item"><%= lang.language %> — <%= lang.proficiency %></div>
+        <% }); %>
+      </div>
+    </div>
+    <div class="right">
+      <div class="section">
+        <h2>Profile</h2>
+        <div class="profile"><%= profile || '' %></div>
+      </div>
+      <div class="section">
+        <h2>Work Experience</h2>
+        <% (workExperience || []).forEach(function(job) { %>
+        <div class="job">
+          <div class="job-dates"><%= job.startDate %> - <%= job.endDate %></div>
+          <div class="job-company"><%= job.company %> · <%= job.jobLocation %></div>
+          <div class="job-position"><%= job.position %></div>
+          <% if (job.description && job.description.length) { %>
+          <div class="job-desc">
+            <ul>
+              <% job.description.filter(Boolean).forEach(function(desc) { %>
+              <li><%= desc %></li>
+              <% }); %>
+            </ul>
+          </div>
+          <% } %>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

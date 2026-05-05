@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Resume - <%= name %></title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Roboto', sans-serif; font-size: 10px; color: #333; line-height: 1.5; padding: 0; max-width: 210mm; }
+    .resume-wrapper { display: flex; min-height: 297mm; }
+    .sidebar { width: 30%; background-color: #333; color: #fff; padding: 30px; }
+    .main-content { flex: 1; padding: 30px 40px; }
+    .name { font-family: 'Roboto Condensed', sans-serif; font-size: 26px; font-weight: 700; margin-bottom: 5px; color: #1a1a1a; text-transform: uppercase; letter-spacing: 1px; }
+    .job-title { font-size: 13px; font-weight: 500; color: #333; margin-bottom: 20px; }
+    .contact-info p { margin-bottom: 5px; font-size: 11px; }
+    .contact-info strong { color: <%= typeof themeColor !== 'undefined' ? themeColor : '#00bcd4' %>; }
+    h2 { font-family: 'Roboto Condensed', sans-serif; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-top: 25px; margin-bottom: 10px; padding-bottom: 5px; border-bottom: 1px solid rgba(0,0,0,0.1); color: <%= typeof themeColor !== 'undefined' ? themeColor : '#00bcd4' %>; }
+    .sidebar h2 { color: #fff; border-bottom: 1px solid rgba(255,255,255,0.3); }
+    .profile-text { font-size: 11px; line-height: 1.6; color: #555; text-align: justify; }
+    .section-content { margin-bottom: 20px; }
+    .skills ul { list-style: none; padding: 0; }
+    .skills li { background-color: rgba(<%= typeof themeColor !== 'undefined' ? '0,188,212' : '0,188,212' %>, 0.1); color: <%= typeof themeColor !== 'undefined' ? themeColor : '#00bcd4' %>; padding: 4px 8px; margin: 4px 0; border-radius: 3px; display: inline-block; font-size: 10px; }
+    .experience-item { margin-bottom: 18px; }
+    .experience-title { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+    .experience-company { font-size: 11px; font-weight: 500; color: #555; margin-bottom: 3px; }
+    .experience-dates { font-size: 10px; color: #777; margin-bottom: 5px; }
+    .experience-description ul { list-style: disc; margin-left: 20px; font-size: 10px; color: #444; }
+    .experience-description li { margin-bottom: 2px; }
+    .education-item { margin-bottom: 15px; }
+    .education-degree { font-size: 12px; font-weight: 600; color: #1a1a1a; }
+    .education-university { font-size: 11px; color: #555; }
+    .education-years { font-size: 10px; color: #777; }
+    .languages ul { list-style: none; padding: 0; }
+    .languages li { font-size: 11px; margin-bottom: 5px; color: #444; }
+
+    /* JSON Resume styles */
+    .jr-wrapper { display: flex; min-height: 297mm; border: 1px solid #eee; padding: 0; }
+    .jr-sidebar { width: 30%; background-color: #f7f7f7; padding: 30px 20px; color: #444; }
+    .jr-main-content { flex: 1; padding: 30px 40px; }
+    .jr-name { font-size: 24px; font-weight: 700; color: <%= typeof themeColor !== 'undefined' ? themeColor : '#2c3e50' %>; margin-bottom: 5px; }
+    .jr-label { font-size: 14px; font-weight: 500; color: <%= typeof themeColor !== 'undefined' ? themeColor : '#34495e' %>; margin-top: 20px; margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+    .jr-contact-info p { font-size: 11px; margin-bottom: 4px; }
+    .jr-skills ul { list-style: none; padding: 0; }
+    .jr-skills li { font-size: 11px; margin-bottom: 3px; }
+    .jr-experience-item { margin-bottom: 18px; }
+    .jr-experience-role { font-size: 13px; font-weight: 600; color: <%= typeof themeColor !== 'undefined' ? themeColor : '#2c3e50' %>; }
+    .jr-experience-company { font-size: 11px; font-weight: 500; color: #555; margin-bottom: 2px; }
+    .jr-experience-dates { font-size: 10px; color: #777; margin-bottom: 4px; }
+    .jr-experience-description ul { list-style: disc; margin-left: 20px; font-size: 10px; color: #444; }
+    .jr-education-item { margin-bottom: 15px; }
+    .jr-education-study { font-size: 12px; font-weight: 600; color: <%= typeof themeColor !== 'undefined' ? themeColor : '#2c3e50' %>; }
+    .jr-education-institution { font-size: 11px; color: #555; }
+    .jr-education-years { font-size: 10px; color: #777; }
+    .jr-languages li { font-size: 11px; margin-bottom: 4px; color: #444; }
+  </style>
+</head>
+<body>
+  <div class="resume-wrapper">
+    
+    <div class="jr-sidebar">
+      <% if (typeof name !== 'undefined' && name) { %>
+        <h1 class="jr-name"><%= name %></h1>
+      <% } %>
+
+      <% if (typeof jobTitle !== 'undefined' && jobTitle) { %>
+        <p class="jr-label jr-job-title"><%= jobTitle %></p>
+      <% } %>
+
+      <h2 class="jr-label">Contact</h2>
+      <div class="jr-contact-info">
+        <p><%= phone %></p>
+        <p><%= email %></p>
+        <p><%= location %></p>
+      </div>
+
+      <h2 class="jr-label">Skills</h2>
+      <div class="jr-skills">
+        <ul>
+          <% (skills || []).forEach(function(skill) { %>
+            <li><%= skill %></li>
+          <% }); %>
+        </ul>
+      </div>
+
+      <h2 class="jr-label">Education</h2>
+      <div class="jr-education">
+        <% (education || []).forEach(function(edu) { %>
+          <div class="jr-education-item">
+            <div class="jr-education-degree"><%= edu.degree %></div>
+            <div class="jr-education-institution"><%= edu.university %></div>
+            <div class="jr-education-years"><%= edu.startYear %> - <%= edu.endYear %></div>
+          </div>
+        <% }); %>
+      </div>
+
+      <h2 class="jr-label">Languages</h2>
+      <div class="jr-languages">
+        <ul>
+          <% (languages || []).forEach(function(lang) { %>
+            <li><%= lang.language %> - <%= lang.proficiency %></li>
+          <% }); %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="jr-main-content">
+      <h2 class="jr-label">Profile</h2>
+      <p class="jr-profile-text"><%= profile || '' %></p>
+
+      <h2 class="jr-label">Work Experience</h2>
+      <div class="jr-experience">
+        <% (workExperience || []).forEach(function(job) { %>
+          <div class="jr-experience-item">
+            <div class="jr-experience-role"><%= job.position %></div>
+            <div class="jr-experience-company"><%= job.company %> | <%= job.jobLocation %></div>
+            <div class="jr-experience-dates"><%= job.startDate %> - <%= job.endDate %></div>
+            <% if (job.description && job.description.length) { %>
+              <ul class="jr-experience-description">
+                <% job.description.forEach(function(desc) { %>
+                  <li><%= desc %></li>
+                <% }); %>
+              </ul>
+            <% } %>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
